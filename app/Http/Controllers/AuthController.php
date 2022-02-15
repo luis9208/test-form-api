@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-     /**
+    /**
      * Permite el inicio de sesion
      *@param Request $request
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request)
     {
-        $credentials = $request->only('user', 'password');
+        $credentials = $request->only('email', 'password');
         $msg = '';
         $status = 200;
         try {
@@ -42,25 +42,29 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => $msg], $status);
-
     }
 
-    public function register(Request $request) {
-        
+    public function register(Request $request)
+    {
+        $msg = ['message' => ''];
+        $status = 200;
+        $response = null;
         try {
-        $pwd = Hash::make($request->password);
-        $user = User::create([$request->email,
-            $request->name,
-            $pwd      
-        ]);
-        
-
-
-        } catch (\Throwable $th) {
-            //throw $th;
+            $pwd = Hash::make($request->password);
+            $user = User::create([
+                'email' => $request->email,
+                'name' => $request->name,
+                'password' => $pwd
+            ]);
+            $msg['message'] = 'El usuario fue creado con exito';
+            $response = response()->json($msg, $status);
+        } catch (\Exception $ex) {
+            $msg['message'] = 'El usuario ya existe';
+            $status = 500;
+            $response = response()->json($msg, $status);
         }
 
-
+        return $response;
     }
 
     public function logout()

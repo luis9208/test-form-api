@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Sede;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SedeFactory extends Factory
 {
+    protected $model = Sede::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +19,8 @@ class SedeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'city' => 'Yumbo, Valle del Cauca',
+            'address' => 'Acopi, Yumbo'
         ];
     }
 }

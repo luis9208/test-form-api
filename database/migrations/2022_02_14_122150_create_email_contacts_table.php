@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('email_contacts', function (Blueprint $table) {
             $table->id();
-            $table->boolean('active');
-            $table->string('email');
+            $table->boolean('active')->default(true);
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }

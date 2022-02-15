@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\EmailContact;
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,15 +21,16 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['middleware' =>['cors']],function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['cors']], function () {
+
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('register', 'AuthController@register');
-
+    Route::get('email-contact', 'EmailContactController@getActiveMail');
+    Route::get('sede', 'SedeController@index');
     Route::middleware(['auth:api'])->group(function () {
 
         Route::post('admin/import', 'UserController@store');
         Route::post('users/search', 'UserController@search');
-
     });
 });
